@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スキャン画面</title>
+    <style>
+        /* 全体の設定 */
+        body {
+            background-color: #000000; /* 背景を黒に */
+            color: #ffffff; /* 基本の文字色を白に */
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* 画面の高さいっぱいに表示 */
+        }
+
+        /* 全体を囲うコンテナ */
+        .container {
+            width: 100%;
+            max-width: 400px; /* スマートフォンで見やすいように最大幅を設定 */
+            position: relative; /* 左上のボタンを配置する基準点にする */
+            border: 2px solid #333; /* 全体の枠線（任意） */
+            padding: 20px;
+        }
+
+        /* 左上の丸いボタン */
+        .settings-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #555;
+            border: 1px solid #888;
+            border-radius: 50%; /* これで円形になる */
+            cursor: pointer;
+        }
+
+        /* 深緑の四角（共通スタイル） */
+        .panel {
+            background-color: #004d00; /* 深緑 */
+            border: 2px solid #006400; /* 少し明るい緑の枠線 */
+            border-radius: 8px; /* 角を少し丸める */
+            padding: 20px;
+            margin-bottom: 20px; /* 下の要素との間隔 */
+            display: flex; /* 中の要素を中央揃えにする設定 */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .panel:last-child {
+            margin-bottom: 0; /* 最後のパネルは下の余白をなくす */
+        }
+
+
+        /* 「スキャン開始」ボタン */
+        .scan-button {
+            background-color: #ffffff; /* 背景を白に */
+            color: #000000; /* 文字色を黒に */
+            font-size: 1.5em; /* 文字を大きく */
+            font-weight: bold;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%; /* 横幅いっぱいに広げる */
+        }
+
+        /* 入力欄 */
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1.1em;
+            box-sizing: border-box; /* paddingを含めた幅計算にする */
+        }
+
+        /* 「入力」ボタン */
+        .submit-button {
+            background-color: #ffffff; /* 背景を白に */
+            color: #000000; /* 文字色を黒に */
+            font-size: 1.1em;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px; /* 角を丸くする */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="settings-button"></button>
+
+        <div class="panel">
+            <button class="scan-button">スキャン開始</button>
+        </div>
+
+        <div class="panel">
+            <input type="text" class="input-field" placeholder="ここにテキストを入力">
+            <button class="submit-button">入力</button>
+        </div>
+    </div>
+
+</body>
+</html>
