@@ -1,2 +1,43 @@
-aiueo
-aiueo
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>画像の表示・非表示サンプル</title>
+    <style>
+        /* CSS: 最初は画像を非表示にしておく */
+        #timedImage {
+            display: none; /* この設定で要素が非表示になる */
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>画像の自動非表示サンプル</h2>
+    <p>ボタンを押すと、3秒間だけ画像が表示されます。</p>
+
+    <button id="showButton">画像を表示</button>
+    <img id="timedImage" src="https://placekitten.com/300/200" alt="かわいい猫の画像">
+    
+    <script>
+        // JavaScript: ここに処理を記述する
+
+        // 1. HTMLの要素を取得する
+        const button = document.getElementById('showButton');
+        const image = document.getElementById('timedImage');
+
+        // 2. ボタンがクリックされたときの処理を設定する
+        button.addEventListener('click', () => {
+            // 2-1. 画像を表示状態にする
+            image.style.display = 'block';
+
+            // 2-2. 一定時間後（ここでは3000ミリ秒 = 3秒後）に処理を実行するタイマーを設定
+            setTimeout(() => {
+                // 2-3. 画像を再び非表示にする
+                image.style.display = 'none';
+            }, 3000); // 3000ミリ秒後に実行
+        });
+    </script>
+
+</body>
+</html>
