@@ -23,7 +23,7 @@
             width: 100%;
             max-width: 400px; /* スマートフォンで見やすいように最大幅を設定 */
             position: relative; /* 左上のボタンを配置する基準点にする */
-            border: 2px solid #333; /* 全体の枠線（任意） */
+            /* border: 2px solid #333; */ /* 画像を背景にするので、この枠線は不要になるかも */
             padding: 20px;
         }
 
@@ -38,12 +38,16 @@
             border: 1px solid #888;
             border-radius: 50%; /* これで円形になる */
             cursor: pointer;
+            z-index: 10; /* 他の要素の上に表示されるようにする */
         }
 
-        /* 深緑の四角（共通スタイル） */
+        /* 深緑の四角（共通スタイル） - 今回は画像背景に置き換え */
         .panel {
-            background-color: #004d00; /* 深緑 */
-            border: 2px solid #006400; /* 少し明るい緑の枠線 */
+            /* 以前の深緑の設定は削除・変更 */
+            background-size: cover; /* 画像がパネル全体を覆うように拡大・縮小 */
+            background-position: center; /* 画像を中央に配置 */
+            background-repeat: no-repeat; /* 画像の繰り返しを防ぐ */
+            border: none; /* 画像が枠線を含む場合があるので、ここでは不要 */
             border-radius: 8px; /* 角を少し丸める */
             padding: 20px;
             margin-bottom: 20px; /* 下の要素との間隔 */
@@ -51,9 +55,18 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 150px; /* 画像の縦横比に応じて調整してください */
+            box-sizing: border-box; /* paddingを含めて高さが計算されるようにする */
         }
         
-        .panel:last-child {
+        /* pic1用のスタイル */
+        .panel-top {
+            background-image: url('pic1.png'); /* pic1を背景に設定 */
+        }
+
+        /* pic2用のスタイル */
+        .panel-bottom {
+            background-image: url('pic2.png'); /* pic2を背景に設定 */
             margin-bottom: 0; /* 最後のパネルは下の余白をなくす */
         }
 
@@ -69,6 +82,9 @@
             border-radius: 10px;
             cursor: pointer;
             width: 100%; /* 横幅いっぱいに広げる */
+            max-width: 250px; /* ボタンの最大幅を制限 (任意) */
+            z-index: 1; /* 背景画像の上に表示されるように */
+            position: relative; /* z-indexを有効にするため */
         }
 
         /* 入力欄 */
@@ -80,6 +96,10 @@
             border-radius: 5px;
             font-size: 1.1em;
             box-sizing: border-box; /* paddingを含めた幅計算にする */
+            z-index: 1;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.9); /* 入力しやすくするため半透明の白背景 */
+            color: #000; /* 文字色を黒に */
         }
 
         /* 「入力」ボタン */
@@ -91,6 +111,8 @@
             border: none;
             border-radius: 20px; /* 角を丸くする */
             cursor: pointer;
+            z-index: 1;
+            position: relative;
         }
     </style>
 </head>
@@ -99,11 +121,11 @@
     <div class="container">
         <button class="settings-button"></button>
 
-        <div class="panel">
+        <div class="panel panel-top">
             <button class="scan-button">スキャン開始</button>
         </div>
 
-        <div class="panel">
+        <div class="panel panel-bottom">
             <input type="text" class="input-field" placeholder="ここにテキストを入力">
             <button class="submit-button">入力</button>
         </div>
