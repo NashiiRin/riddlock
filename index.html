@@ -2,33 +2,108 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <!-- 
+      iPad（タブレット）の画面幅に合わせて表示を調整するために
+      viewportメタタグを指定します。
+    -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webページ</title>
+    <title>指定のWebサイト</title>
     <style>
-        /* ページの基本設定 */
-        body {
-            background-color: black; /* 背景を黒に設定 */
-            margin: 0; /* デフォルトの余白をなくす */
-            padding: 20px; /* 画面の端と画像の間に少し余白を設ける */
-            display: flex; /* Flexboxレイアウトを有効にする */
-            flex-direction: column; /* 要素を縦方向に並べる */
-            align-items: center; /* 要素を水平方向の中央に配置する */
-            gap: 20px; /* 画像と画像の間に20pxの隙間を空ける */
+        /* --- ページ全体の基本設定 --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: sans-serif;
+            /* スクロールバーが不要な場合 (右半分に固定するため) */
+            overflow: hidden; 
         }
 
-        /* 画像のスタイル */
-        img {
-            max-width: 100%; /* 画像が画面幅を超えないようにする */
-            height: auto; /* 高さは自動的に調整する */
-            display: block; /* 画像をブロック要素として扱い、意図しない隙間を防ぐ */
+        /* 1. 全体を暗くする
+        */
+        body {
+            /* 暗い背景色 (真っ黒より少し明るいダークグレー) */
+            background-color: #1a1a1a; 
+            color: #f0f0f0; /* 文字色は明るく (念のため) */
+            
+            /* 子要素(.right-container)を
+              画面基準で配置するための基準点にします 
+            */
+            position: relative; 
         }
+
+        /* 2. iPad横画面の右側半分に要素を固める
+        */
+        .right-container {
+            /* 画面の右上に固定 */
+            position: absolute;
+            top: 0;
+            right: 0;
+            
+            /* 幅を画面の50% (右半分) に */
+            width: 50%; 
+            /* 高さを画面の100%に */
+            height: 100vh; 
+
+            /* コンテナの内側に少し余白を設ける */
+            padding: 20px;
+            /* paddingを含めて幅50%を維持する設定 */
+            box-sizing: border-box; 
+
+            /* 3. 中の要素(画像)を上下に配置するための設定
+            */
+            display: flex;
+            flex-direction: column; /* 要素を縦方向(上から下)に積む */
+            
+            /* コンテナ内の垂直方向(上下)の配置を変更
+              'center': 2つの画像を中央に寄せて配置します。
+              (以前は 'space-around' でした)
+            */
+            justify-content: center; 
+            
+            /* コンテナ内の水平方向(左右)の配置
+              'center': 右半分の中で中央に寄せる
+            */
+            align-items: center; 
+
+            /* (変更) 画像と画像の間に20pxの隙間を設ける */
+            gap: 20px;
+        }
+
+        /* --- 画像のスタイル (変更) --- */
+        .right-container img {
+            /* 1. サイズの変更
+              画像の最大幅をコンテナの45%までに制限
+              (以前は90%でしたので、約50%の大きさになります)
+            */
+            max-width: 45%;
+            
+            /* 高さはアスペクト比を維持して自動調整 */
+            height: auto; 
+            
+            /* 2. 枠線の削除
+              ご要望に基づき、枠線(border)と影(box-shadow)を削除しました。
+            */
+        }
+
     </style>
 </head>
 <body>
 
-    <img src="pic-01.png" alt="UI Image 1">
+    <!-- 
+      すべてのコンテンツをこの右側コンテナに入れます
+    -->
+    <div class="right-container">
+        
+        <!-- 1つ目の画像 -->
+        <img src="pic-01.png" alt="Pic 01">
+        
+        <!-- 2つ目の画像 (pic-02.png と仮定) -->
+        <img src="pic-02.png" alt="Pic 02">
 
-    <img src="pic-02.png" alt="UI Image 2">
+    </div>
 
 </body>
 </html>
+
