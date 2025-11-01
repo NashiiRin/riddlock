@@ -68,7 +68,6 @@
         .overlay-button {
             max-width: 35%; /* スキャン開始ボタン (button-01) のサイズ */
             height: auto;
-            /* iPad用のため cursor と transition は削除 */
         }
         
         /* OKボタン (button-02) のみのサイズ調整 */
@@ -113,6 +112,14 @@
 
     </div>
 
+    <!-- 
+      【デバッグ対応】
+      iPad (Mobile Safari) で :active 疑似クラスを
+      正常に動作させるための空イベントリスナー
+    -->
+    <script>
+        document.body.addEventListener('touchstart', function() {}, false);
+    </script>
 </body>
 </html>
 
