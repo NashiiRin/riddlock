@@ -86,40 +86,49 @@
 
         /* --- アニメーション用スタイル --- */
 
-        /* pic-03〜pic-07 が表示されるコンテナ */
         #animation-container {
             position: absolute;
-            /* right-container の中で上下中央に配置 */
             top: 50%; 
             left: 50%;
             transform: translate(-50%, -50%);
-            /* 親の right-container の幅いっぱいに使う */
             width: 100%; 
-            /* 画像がずれて表示される領域を確保 (コンテンツに合わせて調整) */
             height: 400px; 
             pointer-events: none; 
             z-index: 20; 
-            /* Flexboxで中の画像を中央に寄せる */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* 画像がずれるので、はみ出しを許可 */
             overflow: visible; 
         }
 
-        /* アニメーションで表示される画像 */
         .animated-pic {
             position: absolute;
-            /* ★変更点★ 2.5倍の大きさ (35% * 2.5 = 87.5%) */
-            max-width: 87.5%; 
+            max-width: 70%; 
             height: auto;
             opacity: 0; 
             transition: opacity 0.3s ease; 
-            /* 中央からのずれをJavaScriptで制御するため、top/leftは初期値50% */
             top: 50%;
             left: 50%;
-            /* 自身の中心を基準に位置を調整 */
             transform: translate(-50%, -50%);
+        }
+
+        .single-display-pic {
+            position: absolute; 
+            max-width: 70%; 
+            height: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .countdown-pic {
+            position: absolute; 
+            max-width: 50%; 
+            height: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            top: 70%; 
+            left: 50%;
+            transform: translate(-50%, -50%); 
         }
 
     </style>
@@ -162,6 +171,14 @@
                 'pic-07.png'
             ];
             
+            const countdownImages = [
+                'pic-09.png', // 5
+                'pic-10.png', // 4
+                'pic-11.png', // 3
+                'pic-12.png', // 2
+                'pic-13.png'  // 1
+            ];
+
             let animationStarted = false;
 
             if (scanButton) {
@@ -171,26 +188,107 @@
 
                     animationContainer.innerHTML = ''; 
 
+                    const displayedImages = [];
+
                     imagesToShow.forEach((src, index) => {
                         setTimeout(() => {
                             const img = document.createElement('img');
                             img.src = src;
                             img.className = 'animated-pic';
                             
-                            // 1枚ごとに右下にずらす (元の画像が中央にあると仮定して計算)
-                            const offset = index * 25; // 25pxずつずらす
-                            
-                            // transform: translate(-50%, -50%) で中央に配置後、さらにずらす
+                            const offset = index * 25; 
                             img.style.transform = `translate(calc(-50% + ${offset}px), calc(-50% + ${offset}px))`;
                             
                             animationContainer.appendChild(img);
+                            displayedImages.push(img); 
                             
                             setTimeout(() => {
                                 img.style.opacity = 1;
                             }, 50); 
 
-                        }, index * 500); // index * 0.5秒
+                        }, index * 500); 
                     });
+
+                    const lastImageTime = (imagesToShow.length - 1) * 500;
+                    const cleanupTime = lastImageTime + 600; 
+
+                    setTimeout(() => {
+                        displayedImages.forEach(img => {
+                            img.style.opacity = 0;
+                        });
+
+                        setTimeout(() => {
+                            animationContainer.innerHTML = ''; 
+                            
+                            // pic-08.png の表示
+                            setTimeout(() => {
+                                const pic08 = document.createElement('img');
+                                pic08.src = 'pic-08.png';
+                                pic08.className = 'single-display-pic'; 
+                                animationContainer.appendChild(pic08);
+
+                                setTimeout(() => {
+                                    pic08.style.opacity = 1;
+                                }, 50);
+
+                                // 0.7秒後にフェードアウトして「次のシーケンスへ」
+                                setTimeout(() => {
+                                    pic08.style.opacity = 0;
+                                    
+                                    setTimeout(() => {
+                                        if (pic08.parentNode) {
+                                            pic08.parentNode.removeChild(pic08);
+                                        }
+                                        
+                                        // ★ここからカウントダウンシーケンス★
+                                        
+                                        // ★変更点★ 表示した画像を保持する配列
+                                        const displayedCountdownImages = []; 
+
+                                        countdownImages.forEach((src, index) => {
+                                            setTimeout(() => {
+                                                // ★変更点★ 現在の画像をフェードアウトする処理を削除
+
+                                                // 2. 新しい画像を準備
+                                                const img = document.createElement('img');
+                                                img.src = src;
+                                                img.className = 'countdown-pic'; 
+                                                animationContainer.appendChild(img);
+                                                // ★変更点★ 配列に追加
+                                                displayedCountdownImages.push(img); 
+
+                                                // 3. わずかな遅延の後、フェードイン
+                                                setTimeout(() => {
+                                                    img.style.opacity = 1;
+                                                }, 50); 
+
+                                                // 4. 最後の画像(pic-13)が表示された場合
+                                                if (index === countdownImages.length - 1) {
+                                                    // 1秒後に「すべて」の画像を消す
+                                                    setTimeout(() => {
+                                                        // ★変更点★ 配列の画像をすべて消す
+                                                        displayedCountdownImages.forEach(img => {
+                                                            img.style.opacity = 0;
+                                                        });
+                                                        
+                                                        setTimeout(() => {
+                                                            animationContainer.innerHTML = '';
+                                                            animationStarted = false; // リセット
+                                                        }, 300); // フェードアウト
+                                                    }, 1000); // 最後の画像表示から1秒後
+                                                }
+
+                                            }, index * 1000); // 1秒おき
+                                        });
+
+                                    }, 300); // pic-08のフェードアウト
+
+                                }, 700); // 0.7秒間表示
+                            }, 400); 
+
+                        }, 300); 
+
+                    }, cleanupTime);
                 });
             }
         });
