@@ -3,133 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スキャン画面</title>
+    <title>Webページ</title>
     <style>
-        /* 全体の設定 */
+        /* ページの基本設定 */
         body {
-            background-color: #000000; /* 背景を黒に */
-            color: #ffffff; /* 基本の文字色を白に */
-            font-family: sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* 画面の高さいっぱいに表示 */
+            background-color: black; /* 背景を黒に設定 */
+            margin: 0; /* デフォルトの余白をなくす */
+            padding: 20px; /* 画面の端と画像の間に少し余白を設ける */
+            display: flex; /* Flexboxレイアウトを有効にする */
+            flex-direction: column; /* 要素を縦方向に並べる */
+            align-items: center; /* 要素を水平方向の中央に配置する */
+            gap: 20px; /* 画像と画像の間に20pxの隙間を空ける */
         }
 
-        /* 全体を囲うコンテナ */
-        .container {
-            width: 100%;
-            max-width: 400px; /* スマートフォンで見やすいように最大幅を設定 */
-            position: relative; /* 左上のボタンを配置する基準点にする */
-            /* border: 2px solid #333; */ /* 画像を背景にするので、この枠線は不要になるかも */
-            padding: 20px;
-        }
-
-        /* 左上の丸いボタン */
-        .settings-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 30px;
-            height: 30px;
-            background-color: #555;
-            border: 1px solid #888;
-            border-radius: 50%; /* これで円形になる */
-            cursor: pointer;
-            z-index: 10; /* 他の要素の上に表示されるようにする */
-        }
-
-        /* 深緑の四角（共通スタイル） - 今回は画像背景に置き換え */
-        .panel {
-            /* 以前の深緑の設定は削除・変更 */
-            background-size: cover; /* 画像がパネル全体を覆うように拡大・縮小 */
-            background-position: center; /* 画像を中央に配置 */
-            background-repeat: no-repeat; /* 画像の繰り返しを防ぐ */
-            border: none; /* 画像が枠線を含む場合があるので、ここでは不要 */
-            border-radius: 8px; /* 角を少し丸める */
-            padding: 20px;
-            margin-bottom: 20px; /* 下の要素との間隔 */
-            display: flex; /* 中の要素を中央揃えにする設定 */
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 150px; /* 画像の縦横比に応じて調整してください */
-            box-sizing: border-box; /* paddingを含めて高さが計算されるようにする */
-        }
-        
-        /* pic1用のスタイル */
-        .panel-top {
-            background-image: url('pic1.png'); /* pic1を背景に設定 */
-        }
-
-        /* pic2用のスタイル */
-        .panel-bottom {
-            background-image: url('pic2.png'); /* pic2を背景に設定 */
-            margin-bottom: 0; /* 最後のパネルは下の余白をなくす */
-        }
-
-
-        /* 「スキャン開始」ボタン */
-        .scan-button {
-            background-color: #ffffff; /* 背景を白に */
-            color: #000000; /* 文字色を黒に */
-            font-size: 1.5em; /* 文字を大きく */
-            font-weight: bold;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%; /* 横幅いっぱいに広げる */
-            max-width: 250px; /* ボタンの最大幅を制限 (任意) */
-            z-index: 1; /* 背景画像の上に表示されるように */
-            position: relative; /* z-indexを有効にするため */
-        }
-
-        /* 入力欄 */
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1.1em;
-            box-sizing: border-box; /* paddingを含めた幅計算にする */
-            z-index: 1;
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.9); /* 入力しやすくするため半透明の白背景 */
-            color: #000; /* 文字色を黒に */
-        }
-
-        /* 「入力」ボタン */
-        .submit-button {
-            background-color: #ffffff; /* 背景を白に */
-            color: #000000; /* 文字色を黒に */
-            font-size: 1.1em;
-            padding: 10px 25px;
-            border: none;
-            border-radius: 20px; /* 角を丸くする */
-            cursor: pointer;
-            z-index: 1;
-            position: relative;
+        /* 画像のスタイル */
+        img {
+            max-width: 100%; /* 画像が画面幅を超えないようにする */
+            height: auto; /* 高さは自動的に調整する */
+            display: block; /* 画像をブロック要素として扱い、意図しない隙間を防ぐ */
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <button class="settings-button"></button>
+    <img src="pic-01.png" alt="UI Image 1">
 
-        <div class="panel panel-top">
-            <button class="scan-button">スキャン開始</button>
-        </div>
-
-        <div class="panel panel-bottom">
-            <input type="text" class="input-field" placeholder="ここにテキストを入力">
-            <button class="submit-button">入力</button>
-        </div>
-    </div>
+    <img src="pic-02.png" alt="UI Image 2">
 
 </body>
 </html>
