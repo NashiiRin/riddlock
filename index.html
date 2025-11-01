@@ -66,11 +66,16 @@
         
         /* 重ねるボタンのスタイル */
         .overlay-button {
-            max-width: 35%; /* 70%から35%に変更（サイズを半分に） */
+            max-width: 35%; /* スキャン開始ボタン (button-01) のサイズ */
             height: auto;
-            cursor: pointer; /* マウスオーバー時にポインターに変更 */
-            transition: filter 0.1s ease; /* タップ時の変化を滑らかに */
+            /* iPad用のため cursor と transition は削除 */
         }
+        
+        /* OKボタン (button-02) のみのサイズ調整 */
+        .overlay-button.button-small {
+            max-width: 17.5%; /* 35% のさらに半分 */
+        }
+
 
         /* ボタンタップ時（アクティブ時）のスタイル */
         .overlay-button:active {
@@ -79,7 +84,7 @@
 
         /* mic.png のみを大きくするためのスタイル */
         .mic-icon {
-            max-width: 40%; 
+            max-width: 20%; /* 40% から半分に変更 */
             height: auto;
             margin-bottom: 10px;
         }
@@ -101,7 +106,8 @@
             <img src="pic-02.png" alt="Pic 02" class="background-image">
             <div class="overlay-content">
                 <img src="mic.png" alt="マイクアイコン" class="mic-icon">
-                <img src="button-02.png" alt="OKボタン" class="overlay-button">
+                <!-- OKボタンに .button-small クラスを追加 -->
+                <img src="button-02.png" alt="OKボタン" class="overlay-button button-small">
             </div>
         </div>
 
