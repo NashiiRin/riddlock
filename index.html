@@ -35,44 +35,46 @@
             gap: 20px;
         }
 
-        /* 各画像とその上に重ねる要素のコンテナ */
         .image-stack-container {
-            position: relative; /* 子要素の絶対配置の基準にする */
-            display: flex; /* 内部の画像サイズ調整のため */
+            position: relative; 
+            display: flex; 
             justify-content: center;
             align-items: center;
-            width: 100%; /* 親コンテナに合わせて幅を調整 */
-            height: auto; /* 内容に合わせて高さを自動調整 */
-            /* 背景画像(pic-01/02)のアスペクト比に合わせて高さが決定される */
-            /* 必要であればmin-heightなどで最低高さを設定することも可能 */
+            width: 100%; 
+            height: auto; 
         }
 
-        /* 背景となる画像 (pic-01.png と pic-02.png) のスタイル */
         .background-image {
             max-width: 70%; 
             height: auto;
-            display: block; /* 余分な隙間をなくす */
+            display: block; 
         }
 
-        /* 重ねる要素のグループ (button-01, mic, button-02) */
         .overlay-content {
-            position: absolute; /* 親要素 .image-stack-container に対して絶対配置 */
-            top: 50%; /* 垂直方向中央寄せ */
-            left: 50%; /* 水平方向中央寄せ */
-            transform: translate(-50%, -50%); /* 自身のサイズを考慮して完全に中央に */
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%; /* オーバーレイの幅を親のコンテナに合わせる */
-            height: 100%; /* オーバーレイの高さを親のコンテナに合わせる */
-            gap: 10px; /* 重ねる要素間の隙間 */
+            width: 100%; 
+            height: 100%; 
+            gap: 10px; 
         }
         
         /* 重ねるボタンのスタイル */
         .overlay-button {
-            max-width: 70%; /* 必要に応じてサイズ調整 */
+            max-width: 35%; /* 70%から35%に変更（サイズを半分に） */
             height: auto;
+            cursor: pointer; /* マウスオーバー時にポインターに変更 */
+            transition: filter 0.1s ease; /* タップ時の変化を滑らかに */
+        }
+
+        /* ボタンタップ時（アクティブ時）のスタイル */
+        .overlay-button:active {
+            filter: brightness(0.7); /* タップ時に少し暗くする */
         }
 
         /* mic.png のみを大きくするためのスタイル */
