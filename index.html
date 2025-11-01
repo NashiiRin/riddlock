@@ -33,8 +33,6 @@
             justify-content: center; 
             align-items: center; 
             gap: 20px;
-            /* アニメーションコンテナの配置基準にする */
-            position: relative;
         }
 
         .image-stack-container {
@@ -44,7 +42,6 @@
             align-items: center;
             width: 100%; 
             height: auto; 
-            /* アニメーションコンテナが重なった場合のため */
             z-index: 10; 
         }
 
@@ -92,32 +89,37 @@
         /* pic-03〜pic-07 が表示されるコンテナ */
         #animation-container {
             position: absolute;
-            /* 画面の上下中央に配置 */
+            /* right-container の中で上下中央に配置 */
             top: 50%; 
             left: 50%;
-            /* 自身の中心を基準に */
             transform: translate(-50%, -50%);
-            /* 背景画像と同じ幅に設定 */
-            width: 70%; 
-            /* 画像がずれて表示される領域を確保 */
-            height: 300px; 
-            /* 他のボタン操作を妨げないように */
+            /* 親の right-container の幅いっぱいに使う */
+            width: 100%; 
+            /* 画像がずれて表示される領域を確保 (コンテンツに合わせて調整) */
+            height: 400px; 
             pointer-events: none; 
-            /* ★変更点★ z-index: 10 よりも大きい値に設定し、最前面に表示 */
             z-index: 20; 
+            /* Flexboxで中の画像を中央に寄せる */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 画像がずれるので、はみ出しを許可 */
+            overflow: visible; 
         }
 
         /* アニメーションで表示される画像 */
         .animated-pic {
             position: absolute;
-            /* button-01 と同じくらいのサイズ感に */
-            max-width: 35%; 
+            /* ★変更点★ 2.5倍の大きさ (35% * 2.5 = 87.5%) */
+            max-width: 87.5%; 
             height: auto;
-            /* 最初は非表示 */
             opacity: 0; 
-            /* フェードインのアニメーション */
             transition: opacity 0.3s ease; 
-            /* top と left は JavaScript で設定されます */
+            /* 中央からのずれをJavaScriptで制御するため、top/leftは初期値50% */
+            top: 50%;
+            left: 50%;
+            /* 自身の中心を基準に位置を調整 */
+            transform: translate(-50%, -50%);
         }
 
     </style>
@@ -126,16 +128,13 @@
 
     <div class="right-container">
         
-        <!-- pic-01.png の上に button-01.png を重ねる -->
         <div class="image-stack-container">
             <img src="pic-01.png" alt="Pic 01" class="background-image">
             <div class="overlay-content">
-                <!-- JavaScriptで参照するためにIDを追加 -->
                 <img src="button-01.png" alt="スキャン開始ボタン" class="overlay-button" id="scanButton">
             </div>
         </div>
         
-        <!-- pic-02.png の上に mic.png と button-02.png を重ねる -->
         <div class="image-stack-container">
             <img src="pic-02.png" alt="Pic 02" class="background-image">
             <div class="overlay-content">
@@ -144,26 +143,17 @@
             </div>
         </div>
 
-        <!-- ★ pic-03〜pic-07 を表示するためのコンテナ ★ -->
         <div id="animation-container"></div>
 
     </div>
 
-    <!-- 
-      【デバッグ対応＆アニメーション制御】
-    -->
     <script>
-        // DOMが読み込まれてからスクリプトを実行
         document.addEventListener('DOMContentLoaded', function() {
-            
-            // iPad (Mobile Safari) で :active 疑似クラスを動作させる
             document.body.addEventListener('touchstart', function() {}, false);
 
-            // --- アニメーションのロジック ---
             const scanButton = document.getElementById('scanButton');
             const animationContainer = document.getElementById('animation-container');
             
-            // 表示する画像のリスト
             const imagesToShow = [
                 'pic-03.png',
                 'pic-04.png',
@@ -175,32 +165,26 @@
             let animationStarted = false;
 
             if (scanButton) {
-                // スキャンボタンがクリック（タップ）されたら実行
                 scanButton.addEventListener('click', function() {
-                    // アニメーションが既に開始されている場合は何もしない（連打防止）
                     if (animationStarted) return; 
                     animationStarted = true;
 
-                    // 念のため、前回のアニメーション画像をクリア
                     animationContainer.innerHTML = ''; 
 
-                    // 0.5秒おきに画像を表示
                     imagesToShow.forEach((src, index) => {
                         setTimeout(() => {
                             const img = document.createElement('img');
                             img.src = src;
                             img.className = 'animated-pic';
                             
-                            // 1枚ごとに右下にずらす (例: 25pxずつ)
-                            const offset = index * 25;
-                            img.style.top = offset + 'px';
-                            img.style.left = offset + 'px';
+                            // 1枚ごとに右下にずらす (元の画像が中央にあると仮定して計算)
+                            const offset = index * 25; // 25pxずつずらす
                             
-                            // コンテナに画像を追加
+                            // transform: translate(-50%, -50%) で中央に配置後、さらにずらす
+                            img.style.transform = `translate(calc(-50% + ${offset}px), calc(-50% + ${offset}px))`;
+                            
                             animationContainer.appendChild(img);
                             
-                            // 少し遅延させてからフェードインさせる
-                            // (appendChild直後にopacityを変更してもtransitionが効かないため)
                             setTimeout(() => {
                                 img.style.opacity = 1;
                             }, 50); 
